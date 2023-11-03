@@ -1,4 +1,4 @@
-package view
+package go.view
 data class CommandLine(val name: String, val args: List<String>)
 fun readComandLine(): CommandLine {
     println(">")
