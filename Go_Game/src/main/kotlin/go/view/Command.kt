@@ -1,32 +1,28 @@
 package go.view
 
-import go.model.Board
+import go.model.*
 
 
-abstract class Command(val argSyntax: String = ""){
+abstract class Command{
     open fun execute(args: List<String>, board: Board?): Board = throw IllegalStateException("Game over.")
     open val isToFinish = false
 }
-object Play: Command("idx"){
+object Play: Command(){
     override fun execute(args: List<String>, board: Board?): Board {
         checkNotNull(board){"Game not started."}
         val arg = requireNotNull(args.firstOrNull()){"Missing index."}
-        val idx = requireNotNull(arg.toIntOrNull()){"Invalid index $arg."}
-
-        return board.play(idx.toPosition())
+        return board.play(arg.toPosition())
     }
 }
 
-fun getCommand(): Map<String, Command>{
-    return mapOf<String, Command>(
+fun getCommands(): Map<String, Command>{
+    return mapOf(
         "PLAY" to Play,
         "NEW" to object : Command(){
             override fun execute(args: List<String>, board: Board?): Board = Board()
         },
         "PASS" to object : Command(){
-            override fun execute(args: List<String>, board: Board?): Board {
-                TODO("not implementd yet")
-            }
+            override fun execute(args: List<String>, board: Board?): Board = board.pass()
         },
         "SAVE" to object : Command(){
             override fun execute(args: List<String>, board: Board?): Board {
