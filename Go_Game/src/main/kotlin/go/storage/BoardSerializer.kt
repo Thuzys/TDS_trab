@@ -20,12 +20,12 @@ object BoardSerializer:Seriealizer<Board> {
         val moves = if (right.isBlank()) emptyMap()
         else right.split(" ").map { it.split(":") }
             .associate { (idx, player) ->
-                Position(idx) to Player.valueOf(player)
+                Position(idx) to getNonNullablePlayer(player)
             }
         val (type, player, pass, removed) = left.split(" ")
         return when(type) {
-            "run" -> BoardRun(moves, Player.valueOf(player), pass.toBooleanStrict(), Player.valueOf(removed))
-            "win" -> BoardWin(moves, Player.valueOf(player))
+            "run" -> BoardRun(moves, getNonNullablePlayer(player), pass.toBooleanStrict(), getPlayer(removed))
+            "win" -> BoardWin(moves, getNonNullablePlayer(player))
             "draw" -> BoardDraw(moves)
             else -> error("Invalid board type: $type")
         }
