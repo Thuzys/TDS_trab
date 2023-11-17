@@ -14,14 +14,20 @@ value class Position private constructor(val idx: String){
             Position(pos)
         }
         operator fun invoke(idx: String): Position{
-            require(POSSIBLE_COL.take(BOARD_SIZE.value).contains(idx.last().uppercase())){"Invalid column."}
-            require(idx.dropLast(1).toInt() in 1..BOARD_SIZE.value){"Invalid line."}
-            val indice = (idx.dropLast(1).toInt() - BOARD_SIZE.value)*-BOARD_SIZE.value + (idx.uppercase().last() - 'A')
+            val rightIdx =
+            if(idx.last().uppercaseChar() !in POSSIBLE_COL){
+                idx.switch()
+            }
+            else idx
+            require(POSSIBLE_COL.take(BOARD_SIZE.value).contains(rightIdx.last().uppercase())){"Invalid column."}
+            require(rightIdx.dropLast(1).toInt() in 1..BOARD_SIZE.value){"Invalid line."}
+            val indice = (rightIdx.dropLast(1).toInt() - BOARD_SIZE.value)*-BOARD_SIZE.value + (rightIdx.uppercase().last() - 'A')
             return values[indice]
         }
         fun getIdx(position: Position) = values.indexOf(position)
     }
 }
+fun String.switch(): String = "${last()}${first()}"
 fun String.toPosition() = Position(this)
 fun Position.getAdj(): List<Position?>{
     val final = mutableListOf<Position?>()
