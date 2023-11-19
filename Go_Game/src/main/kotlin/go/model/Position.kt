@@ -13,7 +13,9 @@ value class Position private constructor(val idx: String){
             val pos = "${BOARD_SIZE.value - (it/(BOARD_SIZE.value))}${POSSIBLE_COL[it%(BOARD_SIZE.value)]}"
             Position(pos)
         }
+        @Suppress("NAME_SHADOWING")
         operator fun invoke(idx: String): Position{
+            val idx = if (idx.last().uppercase() in POSSIBLE_COL) idx else idx.swich()
             require(POSSIBLE_COL.take(BOARD_SIZE.value).contains(idx.last().uppercase())){"Invalid column."}
             require(idx.dropLast(1).toInt() in 1..BOARD_SIZE.value){"Invalid line."}
             val indice = (idx.dropLast(1).toInt() - BOARD_SIZE.value)*-BOARD_SIZE.value + (idx.uppercase().last() - 'A')
@@ -31,3 +33,5 @@ fun Position.getAdj(): List<Position?>{
     if (line - 1 == 0) final.add(null) else final.add(Position.values[Position.getIdx(this) + BOARD_SIZE.value])
     return final
 }
+
+private fun String.swich() = "${drop(1)}${first()}"
