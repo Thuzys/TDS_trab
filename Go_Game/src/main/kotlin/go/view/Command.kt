@@ -3,7 +3,7 @@ package go.view
 import go.model.*
 import go.storage.Storage
 
-abstract class Command(){
+abstract class Command{
     open fun execute(args: List<String>, game: Game): Game = throw IllegalStateException("Game over.")
     open val isToFinish = false
 }
