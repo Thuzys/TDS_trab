@@ -15,7 +15,7 @@ value class Position private constructor(val idx: String){
         }
         operator fun invoke(idx: String): Position{
             val actualIdx =
-            if(idx.last().uppercaseChar() in POSSIBLE_COL) idx else "${idx.last().uppercaseChar()}${idx.first()}"
+            if(idx.last().uppercaseChar() in POSSIBLE_COL) idx else "${idx.drop(1)}${idx.first()}"
 
             require(POSSIBLE_COL.take(BOARD_SIZE.value).contains(actualIdx.last().uppercase())){"Invalid column."}
             require(actualIdx.dropLast(1).toInt() in 1..BOARD_SIZE.value){"Invalid line."}
