@@ -35,7 +35,7 @@ class BoardSerializerTest{
             winner = Player.O,
         )
 
-        val expectedSerialization = "win O null null | 7B:X 5H:O"
+        val expectedSerialization = "win O | 7B:X 5H:O"
         val actualSerialization = BoardSerializer.serialize(board)
 
         assertEquals(expectedSerialization, actualSerialization)
@@ -47,7 +47,7 @@ class BoardSerializerTest{
             mapOf()
         )
 
-        val expectedSerialization = "draw null null null | "
+        val expectedSerialization = "draw | "
         val actualSerialization = BoardSerializer.serialize(board)
 
         assertEquals(expectedSerialization, actualSerialization)
@@ -60,7 +60,7 @@ class BoardSerializerTest{
             )
         )
 
-        val expectedSerialization2 = "draw null null null | 7B:O 9A:X 8E:O"
+        val expectedSerialization2 = "draw | 7B:O 9A:X 8E:O"
         val actualSerialization2 = BoardSerializer.serialize(board2)
 
         assertEquals(expectedSerialization2, actualSerialization2)

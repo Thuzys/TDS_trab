@@ -6,8 +6,8 @@ object BoardSerializer:Seriealizer<Board> {
     override fun serialize(data: Board): String =
         when(data){
             is BoardRun -> "run ${data.turn} ${data.pass} ${data.removed}"
-            is BoardWin -> "win ${data.winner} null null"
-            is BoardDraw -> "draw null null null"
+            is BoardWin -> "win ${data.winner}"
+            is BoardDraw -> "draw"
         } + " | " +
                 data.boardCells.entries.joinToString(" "){
                     (pos, player) -> "${pos.idx}:$player"

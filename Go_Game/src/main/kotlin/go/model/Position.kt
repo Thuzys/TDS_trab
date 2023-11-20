@@ -13,18 +13,20 @@ value class Position private constructor(val idx: String){
             val pos = "${BOARD_SIZE.value - (it/(BOARD_SIZE.value))}${POSSIBLE_COL[it%(BOARD_SIZE.value)]}"
             Position(pos)
         }
+        @Suppress("NAME_SHADOWING")
         operator fun invoke(idx: String): Position{
-            val actualIdx =
-            if(idx.last().uppercaseChar() in POSSIBLE_COL) idx else "${idx.drop(1)}${idx.first()}"
+            val idx = if(idx.last().uppercaseChar() in POSSIBLE_COL) idx else idx.switch()
 
-            require(POSSIBLE_COL.take(BOARD_SIZE.value).contains(actualIdx.last().uppercase())){"Invalid column."}
-            require(actualIdx.dropLast(1).toInt() in 1..BOARD_SIZE.value){"Invalid line."}
-            val indice = (actualIdx.dropLast(1).toInt() - BOARD_SIZE.value)*-BOARD_SIZE.value + (actualIdx.uppercase().last() - 'A')
+            require(POSSIBLE_COL.take(BOARD_SIZE.value).contains(idx.last().uppercase())){"Invalid column."}
+            require(idx.dropLast(1).toInt() in 1..BOARD_SIZE.value){"Invalid line."}
+            val indice = (idx.dropLast(1).toInt() - BOARD_SIZE.value)*-BOARD_SIZE.value + (idx.uppercase().last() - 'A')
             return values[indice]
         }
         fun getIdx(position: Position) = values.indexOf(position)
     }
 }
+
+private fun String.switch() = "${drop(1)}${first()}"
 fun String.toPosition() = Position(this)
 fun Position.getAdj(): List<Position?>{
     val final = mutableListOf<Position?>()
