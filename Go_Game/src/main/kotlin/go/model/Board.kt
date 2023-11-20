@@ -11,8 +11,11 @@ val BOARD_CELLS = BOARD_SIZE.value * BOARD_SIZE.value
 
 typealias BoardCells = Map<Position, Player>
 sealed class Board(val boardCells: BoardCells)
-class BoardRun(boardCells: BoardCells, val turn: Player,
-               val pass: Boolean = false, val removed: Player? = null): Board(boardCells)
+class BoardRun(
+               boardCells: BoardCells,
+               val turn: Player,
+               val pass: Boolean = false,
+               val removed: Player? = null): Board(boardCells)
 class BoardWin(boardCells: BoardCells, val winner: Player): Board(boardCells)
 class BoardDraw(boardCells: BoardCells): Board(boardCells)
 fun Board(start: Player = Player.X): Board =  BoardRun(emptyMap(), start)

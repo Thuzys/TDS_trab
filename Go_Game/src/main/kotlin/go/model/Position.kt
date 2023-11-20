@@ -14,9 +14,12 @@ value class Position private constructor(val idx: String){
             Position(pos)
         }
         operator fun invoke(idx: String): Position{
-            require(POSSIBLE_COL.take(BOARD_SIZE.value).contains(idx.last().uppercase())){"Invalid column."}
-            require(idx.dropLast(1).toInt() in 1..BOARD_SIZE.value){"Invalid line."}
-            val indice = (idx.dropLast(1).toInt() - BOARD_SIZE.value)*-BOARD_SIZE.value + (idx.uppercase().last() - 'A')
+            val actualIdx =
+            if(idx.last().uppercaseChar() in POSSIBLE_COL) idx else "${idx.last().uppercaseChar()}${idx.first()}"
+
+            require(POSSIBLE_COL.take(BOARD_SIZE.value).contains(actualIdx.last().uppercase())){"Invalid column."}
+            require(actualIdx.dropLast(1).toInt() in 1..BOARD_SIZE.value){"Invalid line."}
+            val indice = (actualIdx.dropLast(1).toInt() - BOARD_SIZE.value)*-BOARD_SIZE.value + (actualIdx.uppercase().last() - 'A')
             return values[indice]
         }
         fun getIdx(position: Position) = values.indexOf(position)
